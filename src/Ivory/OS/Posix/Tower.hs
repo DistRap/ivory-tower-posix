@@ -32,12 +32,14 @@ data MonitorCode = MonitorCode
   , monitorUserCode :: ModuleDef
   }
 
-instance Monoid MonitorCode where
-  mempty = MonitorCode mempty mempty
-  mappend a b = MonitorCode
+instance Semigroup MonitorCode where
+  (<>) a b = MonitorCode
     { monitorGenCode = monitorGenCode a >> monitorGenCode b
     , monitorUserCode = monitorUserCode a >> monitorUserCode b
     }
+
+instance Monoid MonitorCode where
+  mempty = MonitorCode mempty mempty
 
 data EmitterCode = EmitterCode
   { emitterInit :: forall eff. Ivory eff ()
