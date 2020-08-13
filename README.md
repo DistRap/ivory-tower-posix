@@ -1,10 +1,10 @@
 
-# [ivory-tower-posix][]
+# ivory-tower-posix
 
 ## About
 
-This repository contains both a support library and a [Tower][] backend for
-using the [Ivory][]/[Tower][] languages on a POSIX based system.
+This repository contains both a support library and a `Tower` backend for
+using the `Ivory/Tower` languages on a POSIX based system.
 
 ## Dependencies
 
