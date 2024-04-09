@@ -34,7 +34,7 @@ readFD name fd = do
       target <- emitter sink 128
       callback $ const $ do
         buf <- local (izero :: Init ('Array 128 ('Stored Uint8)))
-        got <- call unix_read fd (toCArray buf) (arrayLen buf)
+        got <- call unix_read fd (toCArray buf) (arrayLen buf - 1)
         ifte_ (got <=? 0)
           (do
             loop <- call ev_default_loop 0
