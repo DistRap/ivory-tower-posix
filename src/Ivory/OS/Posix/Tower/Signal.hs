@@ -5,6 +5,8 @@
 module Ivory.OS.Posix.Tower.Signal where
 
 import Ivory.Language
+import Ivory.Language.Type    (unwrapExpr)
+import qualified Ivory.Language.Syntax as I
 import Ivory.Tower
 import Ivory.OS.Posix.Tower.EventLoop
 
@@ -18,7 +20,8 @@ instance Signalable Watcher where
   signalName = watcherName
   signalHandler = watcherDefs
   signalInit = watcherInit
-  signalNumber = error "no signal numbers defined for Watcher"
+  signalNumber = pure 0
+  --signalNumber = error "no signal numbers defined for Watcher"
 
 data IOEventMask
   = ReadOnly
@@ -58,8 +61,9 @@ watchIO name fd eventmask mon = do
     uses_libev
     defMemArea global_watcher
     incl start
-    -- FIXME: fd might not be an `extern` expression
-    inclSym fd
+    case unwrapExpr fd of
+      (I.ExpLit _) -> return ()
+      _ -> inclSym fd
 
   defs :: (forall s. Ivory (AllocEffects s) ()) -> ModuleDef
   defs action = do
